@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # Service de base de données PostgreSQL
   database:
     image: postgres:latest  # Utilisation de l'image officielle de PostgreSQL
     container_name: postgres_db
@@ -13,11 +14,25 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
-      - pgnetwork
+      - symfony_network
+
+  # Service pour l'application Symfony
+  app:
+    build:
+      context: .  # Le Dockerfile est dans le même dossier
+    container_name: symfony_app
+    ports:
+      - "8000:8000"  # Symfony utilisera le port 8000
+    volumes:
+      - .:/var/www/html  # Volume pour synchroniser le code local avec le container
+    networks:
+      - symfony_network
+    depends_on:
+      - database  # Attendre que la base de données soit prête
 
 volumes:
   pgdata:
 
 networks:
-  pgnetwork:
+  symfony_network:
     driver: bridge

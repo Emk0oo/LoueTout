@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class CreateDatabaseCommand extends Command
 {
-    public const string NAME_ARGUMENT = 'id';
+    public const NAME_ARGUMENT = "id";
 
     public function __construct(
         private readonly InstanceRepository $instanceRepository,
