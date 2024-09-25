@@ -6,6 +6,7 @@ use App\Repository\InstanceRepository;
 use App\Services\GlobalVariableService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -17,7 +18,7 @@ class KernelRequestEvent
         private readonly TokenStorageInterface $tokenStorage, 
         private readonly ManagerRegistry $registry, 
         private InstanceRepository $instanceRepository, 
-        private GlobalVariableService $globalVariableService
+        private GlobalVariableService $globalVariableService,
         )
     {
     }

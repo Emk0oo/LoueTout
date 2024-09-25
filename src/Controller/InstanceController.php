@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Repository\InstanceRepository;
 use App\Repository\ProductRepository;
+use App\Repository\UserRepository;
 use App\Services\GlobalVariableService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -59,4 +60,18 @@ class InstanceController extends AbstractController
             'controller_name' => 'InstanceController',
         ]);
     }
+
+
+    #[Route('/instance/{instance}/list', name: 'app_instance_list')]
+    public function list(): Response
+    {
+
+        $products = $this->productRepository->findAll();
+
+        return $this->render('instance/index.html.twig', [
+            'controller_name' => 'InstanceController',
+            'products' => $products
+        ]);
+    }
+
 }
