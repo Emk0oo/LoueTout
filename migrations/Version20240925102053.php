@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240925071316 extends AbstractMigration
+final class Version20240925102053 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -44,7 +44,7 @@ final class Version20240925071316 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN rent_history.instance_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN rent_history.started_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN rent_history.ended_at IS \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('CREATE TABLE "user" (id UUID NOT NULL, rent_history_id UUID DEFAULT NULL, instance_id UUID NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, stripe_id VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) NOT NULL, address VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE "user" (id UUID NOT NULL, rent_history_id UUID DEFAULT NULL, instance_id UUID NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, stripe_id VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) NOT NULL, address VARCHAR(255) NOT NULL, firstname VARCHAR(255) NOT NULL, lastname VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_8D93D649B4E7203D ON "user" (rent_history_id)');
         $this->addSql('CREATE INDEX IDX_8D93D6493A51721D ON "user" (instance_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL ON "user" (email)');

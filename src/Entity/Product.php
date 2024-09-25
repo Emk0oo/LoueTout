@@ -41,6 +41,10 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private ?Instance $instance = null;
 
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $rentBy = null;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -139,6 +143,23 @@ class Product
         $this->instance = $instance;
 
         return $this;
+    }
+
+    public function getRentBy(): ?User
+    {
+        return $this->rentBy;
+    }
+
+    public function setRentBy(?User $rentBy): static
+    {
+        $this->rentBy = $rentBy;
+
+        return $this;
+    }
+
+    public function getFirstImage(): ?ProductImage
+    {
+        return count($this->images) > 0 ? $this->images->first() : null;
     }
 
 }
