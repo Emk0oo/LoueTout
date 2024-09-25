@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Entity\User;
+use App\Entity\InstanceSettings;
 use App\Repository\InstanceRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
@@ -87,6 +88,29 @@ class InstanceController extends AbstractController
         $this->manager->flush();
         
         dd($product);
+
+        // return $this->render('instance/product.html.twig', [
+        //     'product' => $product
+        // ]);
+    }
+
+    #[Route('/instance/{instance}/setting', name: 'app_instance_setting')]
+    public function create_setting(): Response
+    {
+
+        $current_instance = $this->globalVariableService->get('current_instance');
+
+        // Ajouter un produit
+        $instanceSetting= new InstanceSettings();
+        $instanceSetting->setKey('name');
+        $instanceSetting->setValue('ABC');
+        // $instanceSetting->setInstance($current_instance);
+        $current_instance->addInstanceSetting($instanceSetting);
+
+        $this->manager->persist($current_instance);
+        $this->manager->flush();
+        
+        dd($current_instance);
 
         // return $this->render('instance/product.html.twig', [
         //     'product' => $product

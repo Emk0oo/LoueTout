@@ -36,7 +36,7 @@ class Instance
     /**
      * @var Collection<int, InstanceSettings>
      */
-    #[ORM\OneToMany(targetEntity: InstanceSettings::class, mappedBy: 'instance', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: InstanceSettings::class, mappedBy: 'instance', orphanRemoval: true, cascade: ['persist'])]
     private Collection $instanceSettings;
 
     public function __construct()
@@ -115,6 +115,17 @@ class Instance
     public function getInstanceSettings(): Collection
     {
         return $this->instanceSettings;
+    }
+
+    public function getSetting(string $key): ?string
+    {
+        foreach ($this->instanceSettings as $instanceSetting) {
+            if ($instanceSetting->getKey() === $key) {
+                return $instanceSetting->getValue();
+            }
+        }
+        
+        return null;
     }
 
     public function addInstanceSetting(InstanceSettings $instanceSetting): static
