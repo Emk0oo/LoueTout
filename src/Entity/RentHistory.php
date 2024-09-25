@@ -18,17 +18,6 @@ class RentHistory
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private Uuid $id;
 
-    /**
-     * @var Collection<int, Product>
-     */
-    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'rentHistory')]
-    private Collection $product;
-
-    /**
-     * @var Collection<int, User>
-     */
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'rentHistory')]
-    private Collection $rent_by;
 
     #[ORM\Column]
     private ?float $price = null;
@@ -43,10 +32,17 @@ class RentHistory
     #[ORM\JoinColumn(nullable: false)]
     private ?Instance $instance = null;
 
+    #[ORM\ManyToOne(inversedBy: 'rentHistories')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $rentBy = null;
+
+    #[ORM\ManyToOne(inversedBy: 'product')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Product $product = null;
+
     public function __construct()
     {
         $this->product = new ArrayCollection();
-        $this->rent_by = new ArrayCollection();
     }
 
     public function getId(): Uuid
@@ -74,42 +70,7 @@ class RentHistory
 
     public function removeProduct(Product $product): static
     {
-        if ($this->product->removeElement($product)) {
-            // set the owning side to null (unless already changed)
-            if ($product->getRentHistory() === $this) {
-                $product->setRentHistory(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getRentBy(): Collection
-    {
-        return $this->rent_by;
-    }
-
-    public function addRentBy(User $rentBy): static
-    {
-        if (!$this->rent_by->contains($rentBy)) {
-            $this->rent_by->add($rentBy);
-            $rentBy->setRentHistory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRentBy(User $rentBy): static
-    {
-        if ($this->rent_by->removeElement($rentBy)) {
-            // set the owning side to null (unless already changed)
-            if ($rentBy->getRentHistory() === $this) {
-                $rentBy->setRentHistory(null);
-            }
-        }
+        $this->product->removeElement($product);
 
         return $this;
     }
@@ -158,6 +119,18 @@ class RentHistory
     public function setInstance(?Instance $instance): static
     {
         $this->instance = $instance;
+
+        return $this;
+    }
+
+    public function getRentBy(): ?User
+    {
+        return $this->rentBy;
+    }
+
+    public function setRentBy(?User $rentBy): static
+    {
+        $this->rentBy = $rentBy;
 
         return $this;
     }
