@@ -12,6 +12,13 @@
     <ul class="list-disc pl-4">
         <li>Loué par {{ product.rentBy.firstname }} {{ product.rentBy.lastname }}</li>
         <li>{{ product.price }}€ / jour</li>
+        <li>
+            {% if product.canBeRented() %}
+                Disponible
+            {% else %}
+                Indisponible
+            {% endif %}
+        </li>
     </ul>
 </main>
 

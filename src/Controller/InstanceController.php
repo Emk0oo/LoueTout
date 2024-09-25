@@ -86,9 +86,11 @@ class InstanceController extends AbstractController
         $this->manager->persist($product);
         $this->manager->flush();
         
-        return $this->render('instance/product.html.twig', [
-            'product' => $product
-        ]);
+        dd($product);
+
+        // return $this->render('instance/product.html.twig', [
+        //     'product' => $product
+        // ]);
     }
     
     #[Route('/instance/{instance}/product/{product}', name: 'app_instance_product_details')]

@@ -34,8 +34,11 @@ class Product
     #[ORM\OneToMany(targetEntity: ProductImage::class, mappedBy: 'product')]
     private Collection $images;
 
-    #[ORM\ManyToOne(inversedBy: 'product')]
-    private ?RentHistory $rentHistory = null;
+    /**
+     * @var Collection<int, RentHistory>
+     */
+    #[ORM\OneToMany(targetEntity: RentHistory::class, mappedBy: 'product')]
+    private Collection $rentHistory;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -121,10 +124,6 @@ class Product
         return $this;
     }
 
-    public function getRentHistory(): ?RentHistory
-    {
-        return $this->rentHistory;
-    }
 
     public function setRentHistory(?RentHistory $rentHistory): static
     {
@@ -157,9 +156,34 @@ class Product
         return $this;
     }
 
+    /**
+     * Get the first image of the product or null if there is no image
+     *
+     * @return ProductImage|null
+     */
     public function getFirstImage(): ?ProductImage
     {
         return count($this->images) > 0 ? $this->images->first() : null;
+    }
+
+    /**
+     * Check if the product can be rented
+     *
+     * @return boolean
+     */
+    public function canBeRented(): bool
+    {
+        // $canBeRented = true;
+
+        // foreach($this->rentHistory as $history) {
+        //     if($history->getStartAt() > new \DateTime()) {
+        //         $canBeRented = false;
+        //         break;
+        //     }
+        // }
+
+        // return $canBeRented;
+        return true;
     }
 
 }

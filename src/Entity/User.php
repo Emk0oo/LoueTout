@@ -43,9 +43,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
-    #[ORM\ManyToOne(inversedBy: 'rent_by')]
-    private ?RentHistory $rentHistory = null;
-
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Instance $instance = null;
@@ -65,9 +62,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'rentBy', orphanRemoval: true)]
     private Collection $products;
 
+    /**
+     * @var Collection<int, RentHistory>
+     */
+    #[ORM\OneToMany(targetEntity: RentHistory::class, mappedBy: 'rentBy')]
+    private Collection $rentHistories;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->rentHistories = new ArrayCollection();
     }
 
     public function getId(): Uuid
@@ -169,18 +173,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRentHistory(): ?RentHistory
-    {
-        return $this->rentHistory;
-    }
-
-    public function setRentHistory(?RentHistory $rentHistory): static
-    {
-        $this->rentHistory = $rentHistory;
-
-        return $this;
-    }
-
     public function getInstance(): ?Instance
     {
         return $this->instance;
@@ -253,6 +245,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($product->getRentBy() === $this) {
                 $product->setRentBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RentHistory>
+     */
+    public function getRentHistories(): Collection
+    {
+        return $this->rentHistories;
+    }
+
+    public function addRentHistory(RentHistory $rentHistory): static
+    {
+        if (!$this->rentHistories->contains($rentHistory)) {
+            $this->rentHistories->add($rentHistory);
+            $rentHistory->setRentBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRentHistory(RentHistory $rentHistory): static
+    {
+        if ($this->rentHistories->removeElement($rentHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($rentHistory->getRentBy() === $this) {
+                $rentHistory->setRentBy(null);
             }
         }
 
