@@ -19,6 +19,7 @@ class InstanceParametersController extends AbstractController
     public function index(): Response
     {
         $current_instance = $this->globalVariableService->get('current_instance');
+        dd($current_instance);
 
         return $this->render('instance_parameters/index.html.twig', [
             'controller_name' => 'InstanceParametersController',

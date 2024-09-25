@@ -27,20 +27,20 @@ class HomeController extends AbstractController
       
         $instance_uuid = uniqid();
 
-        // $instance = new Instance();
-        // $instance->setName('instance-'.$instance_uuid);
+        $instance = new Instance();
+        $instance->setName('instance-'.$instance_uuid);
 
-        // $this->manager->persist($instance);
-        // $this->manager->flush();
+        $this->manager->persist($instance);
+        $this->manager->flush();
         
-        // $input = new ArrayInput([
-        //     'command' => 'app:database:create',
-        //     'id' => $instance->getId(),
-        // ]);
+        $input = new ArrayInput([
+            'command' => 'app:database:create',
+            'id' => $instance->getId(),
+        ]);
         
-        // $application->run($input, new NullOutput());
+        $application->run($input, new NullOutput());
         
-        // echo 'Instance created with id: '.$instance->getName();
+        echo 'Instance created with id: '.$instance->getName();
  
  
         return $this->render('home/index.html.twig', [
