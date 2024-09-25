@@ -5,7 +5,10 @@
 {% block body %}
 
 <main class="container mx-auto ">
-    <a href="{{ path('app_instance_products', {'instance' : current_instance()} )}}">Voir tous les produits</a>
+    <a href="{{ path('app_instance_products', {'instance' : current_instance()} )}}" class="font-bold text-base inline-block mb-4">
+        Voir tous les produits
+    </a>
+
     <img src="{{ product.getFirstImage() }}" alt="{{ product.label }}" width="1200" height="400" class="w-full aspect-[3/1] object-cover rounded-xl">
     <h1 class="text-2xl font-bold mb-4 mt-4">{{ product.label }}</h1>
     <p>{{ product.description }}</p>

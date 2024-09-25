@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240925124944 extends AbstractMigration
+final class Version20240925135306 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,11 +20,11 @@ final class Version20240925124944 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE SEQUENCE instance_settings_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE instance (id UUID NOT NULL, name VARCHAR(255) NOT NULL, sql_db_name VARCHAR(255) DEFAULT NULL, sql_user_name VARCHAR(255) DEFAULT NULL, sql_db_pass VARCHAR(255) DEFAULT NULL, db_created BOOLEAN NOT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN instance.id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE instance_settings (id UUID NOT NULL, instance_id UUID NOT NULL, name VARCHAR(255) NOT NULL, logo VARCHAR(255) DEFAULT NULL, primary_color VARCHAR(255) DEFAULT NULL, secondary_color VARCHAR(255) DEFAULT NULL, tertiary_color VARCHAR(255) DEFAULT NULL, accent_color VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE instance_settings (id INT NOT NULL, instance_id UUID NOT NULL, key VARCHAR(255) NOT NULL, value VARCHAR(510) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_E7EFA7023A51721D ON instance_settings (instance_id)');
-        $this->addSql('COMMENT ON COLUMN instance_settings.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN instance_settings.instance_id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE product (id UUID NOT NULL, instance_id UUID NOT NULL, rent_by_id UUID NOT NULL, label VARCHAR(255) NOT NULL, description TEXT NOT NULL, price DOUBLE PRECISION NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_D34A04AD3A51721D ON product (instance_id)');
@@ -38,12 +38,14 @@ final class Version20240925124944 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN product_image.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN product_image.product_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN product_image.instance_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE rent_history (id UUID NOT NULL, instance_id UUID NOT NULL, rent_by_id UUID NOT NULL, price DOUBLE PRECISION NOT NULL, started_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, ended_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE rent_history (id UUID NOT NULL, instance_id UUID NOT NULL, rent_by_id UUID NOT NULL, product_id UUID NOT NULL, price DOUBLE PRECISION NOT NULL, started_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, ended_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_C6960B3B3A51721D ON rent_history (instance_id)');
         $this->addSql('CREATE INDEX IDX_C6960B3B4B99D2B2 ON rent_history (rent_by_id)');
+        $this->addSql('CREATE INDEX IDX_C6960B3B4584665A ON rent_history (product_id)');
         $this->addSql('COMMENT ON COLUMN rent_history.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN rent_history.instance_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN rent_history.rent_by_id IS \'(DC2Type:uuid)\'');
+        $this->addSql('COMMENT ON COLUMN rent_history.product_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN rent_history.started_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN rent_history.ended_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE "user" (id UUID NOT NULL, instance_id UUID NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, stripe_id VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) NOT NULL, address VARCHAR(255) NOT NULL, firstname VARCHAR(255) NOT NULL, lastname VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
@@ -73,6 +75,7 @@ final class Version20240925124944 extends AbstractMigration
         $this->addSql('ALTER TABLE product_image ADD CONSTRAINT FK_64617F033A51721D FOREIGN KEY (instance_id) REFERENCES instance (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE rent_history ADD CONSTRAINT FK_C6960B3B3A51721D FOREIGN KEY (instance_id) REFERENCES instance (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE rent_history ADD CONSTRAINT FK_C6960B3B4B99D2B2 FOREIGN KEY (rent_by_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE rent_history ADD CONSTRAINT FK_C6960B3B4584665A FOREIGN KEY (product_id) REFERENCES product (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE "user" ADD CONSTRAINT FK_8D93D6493A51721D FOREIGN KEY (instance_id) REFERENCES instance (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
@@ -80,6 +83,7 @@ final class Version20240925124944 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
+        $this->addSql('DROP SEQUENCE instance_settings_id_seq CASCADE');
         $this->addSql('ALTER TABLE instance_settings DROP CONSTRAINT FK_E7EFA7023A51721D');
         $this->addSql('ALTER TABLE product DROP CONSTRAINT FK_D34A04AD3A51721D');
         $this->addSql('ALTER TABLE product DROP CONSTRAINT FK_D34A04AD4B99D2B2');
@@ -87,6 +91,7 @@ final class Version20240925124944 extends AbstractMigration
         $this->addSql('ALTER TABLE product_image DROP CONSTRAINT FK_64617F033A51721D');
         $this->addSql('ALTER TABLE rent_history DROP CONSTRAINT FK_C6960B3B3A51721D');
         $this->addSql('ALTER TABLE rent_history DROP CONSTRAINT FK_C6960B3B4B99D2B2');
+        $this->addSql('ALTER TABLE rent_history DROP CONSTRAINT FK_C6960B3B4584665A');
         $this->addSql('ALTER TABLE "user" DROP CONSTRAINT FK_8D93D6493A51721D');
         $this->addSql('DROP TABLE instance');
         $this->addSql('DROP TABLE instance_settings');
