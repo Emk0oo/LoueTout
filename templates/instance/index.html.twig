@@ -11,7 +11,11 @@
     {% endfor %}
     </div>
 
-    <a href="{{ path('app_instance_products', {'instance' : current_instance()} )}}">Voir tous les produits</a>
+    <div class="text-center mt-8">
+        <a href="{{ path('app_instance_products', {'instance' : current_instance()} )}}" class="font-bold text-base">
+            Voir tous les produits
+        </a>
+    </div>
 </main>
 
 {% endblock %}
