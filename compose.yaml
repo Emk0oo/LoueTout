@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydatabase
+      POSTGRES_DB: app
     ports:
       - "5432:5432"  # Exposer le port 5432 de PostgreSQL
     volumes:

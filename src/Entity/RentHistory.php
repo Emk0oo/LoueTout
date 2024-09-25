@@ -6,14 +6,17 @@ use App\Repository\RentHistoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: RentHistoryRepository::class)]
 class RentHistory
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private Uuid $id;
 
     /**
      * @var Collection<int, Product>
@@ -36,13 +39,17 @@ class RentHistory
     #[ORM\Column]
     private ?\DateTimeImmutable $ended_at = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Instance $instance = null;
+
     public function __construct()
     {
         $this->product = new ArrayCollection();
         $this->rent_by = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): Uuid
     {
         return $this->id;
     }
@@ -139,6 +146,18 @@ class RentHistory
     public function setEndedAt(\DateTimeImmutable $ended_at): static
     {
         $this->ended_at = $ended_at;
+
+        return $this;
+    }
+
+    public function getInstance(): ?Instance
+    {
+        return $this->instance;
+    }
+
+    public function setInstance(?Instance $instance): static
+    {
+        $this->instance = $instance;
 
         return $this;
     }

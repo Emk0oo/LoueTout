@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -13,10 +15,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private Uuid $id;
+    
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
@@ -41,7 +44,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'rent_by')]
     private ?RentHistory $rentHistory = null;
 
-    public function getId(): ?int
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Instance $instance = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $address = null;
+
+    public function getId(): Uuid
     {
         return $this->id;
     }
@@ -148,6 +158,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRentHistory(?RentHistory $rentHistory): static
     {
         $this->rentHistory = $rentHistory;
+
+        return $this;
+    }
+
+    public function getInstance(): ?Instance
+    {
+        return $this->instance;
+    }
+
+    public function setInstance(?Instance $instance): static
+    {
+        $this->instance = $instance;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): static
+    {
+        $this->address = $address;
 
         return $this;
     }

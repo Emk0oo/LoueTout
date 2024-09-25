@@ -20,5 +20,8 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\Services\GlobalVariableService:
+        public: true  # Optionnel si vous souhaitez l'injecter dans des services privés
+        
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

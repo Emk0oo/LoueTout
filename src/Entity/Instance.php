@@ -4,28 +4,34 @@ namespace App\Entity;
 
 use App\Repository\InstanceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: InstanceRepository::class)]
 class Instance
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private Uuid $id;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $sql_db_name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $sql_user_name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $sql_db_pass = null;
 
-    public function getId(): ?int
+    #[ORM\Column]
+    private ?bool $db_created = false;
+
+    public function getId(): Uuid
     {
         return $this->id;
     }
@@ -74,6 +80,18 @@ class Instance
     public function setSqlDbPass(string $sql_db_pass): static
     {
         $this->sql_db_pass = $sql_db_pass;
+
+        return $this;
+    }
+
+    public function isDbCreated(): ?bool
+    {
+        return $this->db_created;
+    }
+
+    public function setDbCreated(bool $db_created): static
+    {
+        $this->db_created = $db_created;
 
         return $this;
     }
