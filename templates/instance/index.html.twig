@@ -1,11 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello !{% endblock %}
+{% block title %}Bienvenue !{% endblock %}
 
 {% block body %}
 
-{% for product in products %}
-    {{ product.label }}
-{% endfor %}
+<main>
+    <div class="container mx-auto p-6">
+
+        <div class="px-6 py-24 text-center bg-secondary rounded-xl">
+            <h1 class="text-3xl font-black">{{ current_instance().getSetting('name') }}</h1>
+        </div>
+
+        <div class="grid grid-cols-3 gap-6 mt-6">
+        {% for product in products %}
+            {% include "_partials/product-card.html.twig" with {'product': product} %}
+        {% endfor %}
+        </div>
+
+        <div class="text-center mt-8">
+            <a href="{{ path('app_instance_products', {'instance' : current_instance().name} )}}" class="font-bold text-base">
+                Voir tous les produits
+            </a>
+        </div>
+    </div>
+</main>
 
 {% endblock %}

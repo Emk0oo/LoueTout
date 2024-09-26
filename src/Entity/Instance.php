@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\InstanceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -31,6 +33,17 @@ class Instance
     #[ORM\Column]
     private ?bool $db_created = false;
 
+    /**
+     * @var Collection<int, InstanceSettings>
+     */
+    #[ORM\OneToMany(targetEntity: InstanceSettings::class, mappedBy: 'instance', orphanRemoval: true, cascade: ['persist'])]
+    private Collection $instanceSettings;
+
+    public function __construct()
+    {
+        $this->instanceSettings = new ArrayCollection();
+    }
+    
     public function getId(): Uuid
     {
         return $this->id;
@@ -92,6 +105,48 @@ class Instance
     public function setDbCreated(bool $db_created): static
     {
         $this->db_created = $db_created;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InstanceSettings>
+     */
+    public function getInstanceSettings(): Collection
+    {
+        return $this->instanceSettings;
+    }
+
+    public function getSetting(string $key): ?string
+    {
+        // $dd=$this->instanceSettings;
+        foreach ($this->instanceSettings as $instanceSetting) {
+            if ($instanceSetting->getKey() === $key) {
+                return $instanceSetting->getValue();
+            }
+        }
+        
+        return null;
+    }
+
+    public function addInstanceSetting(InstanceSettings $instanceSetting): static
+    {
+        if (!$this->instanceSettings->contains($instanceSetting)) {
+            $this->instanceSettings->add($instanceSetting);
+            $instanceSetting->setInstance($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInstanceSetting(InstanceSettings $instanceSetting): static
+    {
+        if ($this->instanceSettings->removeElement($instanceSetting)) {
+            // set the owning side to null (unless already changed)
+            if ($instanceSetting->getInstance() === $this) {
+                $instanceSetting->setInstance(null);
+            }
+        }
 
         return $this;
     }

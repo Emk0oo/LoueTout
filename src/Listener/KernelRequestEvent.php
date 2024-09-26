@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+use function PHPUnit\Framework\stringStartsWith;
+
 #[AsEventListener(event: 'kernel.request', method: 'onKernelRequest')]
 class KernelRequestEvent
 {
@@ -24,8 +26,7 @@ class KernelRequestEvent
     }
 
     public function onKernelRequest(RequestEvent $event): void
-    {
-        
+    {        
         if($event->getRequest()->attributes->has('instance')) {
 
             $instance_name = $event->getRequest()->attributes->get('instance');
@@ -33,7 +34,7 @@ class KernelRequestEvent
             $instance = $this->instanceRepository->findOneBy([
                 'name' => $instance_name
             ]);
-
+            
             if($instance === null) {
                 throw new \Exception('Instance not found');
             }

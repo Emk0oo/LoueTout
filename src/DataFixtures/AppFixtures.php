@@ -2,49 +2,32 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Instance;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    public function __construct(private KernelInterface $kernel)
+    private UserPasswordHasherInterface $hasher;
+    public function __construct(UserPasswordHasherInterface $hasher)
     {
+        $this->hasher = $hasher;
     }
 
     public function load(ObjectManager $manager): void
     {
-
-        $application = new Application($this->kernel);
-        $application->setAutoExit(false);
-      
-        for ($i = 0; $i < 2; $i++) {
-            $instance = new Instance();
-            $instance->setName('instance-'.$i);
-
-            $manager->persist($instance);
-            
-            $input = new ArrayInput([
-                'command' => 'app:database:create',
-                'id' => $instance->getId(),
-            ]);
-            
-            $application->run($input, new NullOutput());
-            
-        }
-        
+        $superAdmin = new User();
+        $superAdmin->setEmail('admin@test.com')
+            ->setRoles(['ROLE_SUPER_ADMIN'])
+            ->setAddress('1 rue du test')
+            ->setPassword($this->hasher->hashPassword($superAdmin, 'password'))
+            ->setFirstName('Super')
+            ->setLastName('Admin')
+            ->setPhone('1234567890')
+            ->setInstance(null);
+        $manager->persist($superAdmin);
         $manager->flush();
-        
-        $instances = $manager->getRepository(Instance::class)->findAll();
-        foreach ($instances as $instance) {
-            echo $instance->getName()."\n";
-        }
-
-
-    
     }
 }

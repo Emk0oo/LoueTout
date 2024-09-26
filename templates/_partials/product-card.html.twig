@@ -1,0 +1,6 @@
+<a class="block" href="{{ path('app_instance_product_details', {'instance': current_instance().name, 'product' : product.id }) }}">
+    <img src="{% if product.images|length > 0 %}/uploads/images/{{ product.getFirstImage().path }}{% else %}/uploads/images/default.jpg{% endif %}" alt="{{ product.label }}" width="250" height="250" class="aspect-square object-cover rounded-xl w-full">
+    <span class="font-medium mt-3 block text-base">{{ product.label }}</span>
+    <span class="text-sm -mt-0.5 block">{{ product.price }}€ / jour</span>
+</a>
+

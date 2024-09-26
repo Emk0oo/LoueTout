@@ -24,7 +24,7 @@ class RegistrationController extends AbstractController
         
     }
 
-    #[Route('/{instance}/register', name: 'app_register')]
+    #[Route('instance/{instance}/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
 
