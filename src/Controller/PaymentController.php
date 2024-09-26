@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Stripe\Tax\Settings;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -17,21 +18,40 @@ class PaymentController extends AbstractController
     {
         $this->stripeService = $stripeService;
     }
-    #[Route('/create-payment-intent', name: 'app_payment_intent')]
+    #[Route('/instance/{instance}/create-payment-intent', name: 'app_payment_intent', methods: ['POST'])]
     public function createPaymentIntent(Request $request): JsonResponse
     {
-        $amount = $request->get('amount');
-        $currency = $request->get('currency', 'eur'); // default to EUR
-        
-        $paymentIntent = $this->stripeService->createPaymentIntent($amount * 100, $currency);
+        // Decode the incoming JSON body
+        $data = json_decode($request->getContent(), true);
 
-        return new JsonResponse([
-            'clientSecret' => $paymentIntent->client_secret,
-        ]);
+        if (!isset($data['amount'])) {
+            return new JsonResponse(['error' => 'Amount is required'], 400);
+        }
+        $amount = (int) $data['amount'];
+        $currency = $data['currency'] ?? 'eur';
+
+        if ($amount <= 0) {
+            return new JsonResponse(['error' => 'Invalid amount'], 400);
+        }
+
+        try {
+            $paymentIntent = $this->stripeService->createPaymentIntent(
+                amount: $amount * 100,
+                currency: $currency
+            );
+
+            return new JsonResponse([
+                'clientSecret' => $paymentIntent->client_secret,
+            ]);
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            return new JsonResponse([
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
 
-    #[Route('/{instance}/payment', name: 'app_payment')]
+    #[Route('/instance/{instance}/payment', name: 'app_payment')]
     public function paymentPage(): Response
     {
         return $this->render('payment/payment.html.twig', [
