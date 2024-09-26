@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\InstanceSettings;
 use App\Entity\Product;
-use App\Entity\User;
 use App\Repository\InstanceRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
@@ -36,7 +36,7 @@ class InstanceController extends AbstractController
         $products = $this->productRepository->findBy(
             [], // critere
             null, // ordre
-            12, // limite
+            6, // limite
             0 // offset
         );
 
@@ -57,36 +57,22 @@ class InstanceController extends AbstractController
     }
 
 
-    #[Route('/instance/{instance}/product/create', name: 'app_instance_product_create')]
-    public function product_create(): Response
+    #[Route('/instance/{instance}/setting', name: 'app_instance_setting')]
+    public function setting(): Response
     {
 
         $current_instance = $this->globalVariableService->get('current_instance');
 
-        // Ajouter un produit
+       $instance_setting = new InstanceSettings();
+       $instance_setting->setKey('name');
+       $instance_setting->setValue('test');
 
-        $user = $this->userRepository->findOneBy(['email' => 'john.doe@mail.com']);
+       $current_instance->addInstanceSetting($instance_setting);
 
-        $product = new Product();
-        $product->setLabel('product-'.uniqid());
-        $product->setPrice(1000);
-        $product->setDescription('description');
-        $product->setInstance($current_instance);
-        $product->setRentBy($user);
-        // $user = new User();
-        // $user->setFirstname('John');
-        // $user->setLastname('Doe');
-        // $user->setEmail('john.doe@mail.com');
-        // $user->setPassword($this->passwordHasher->hashPassword($user, 'password'));
-        // $user->setPhone('0606060606');
-        // $user->setAddress('1 rue du test');
-        // $this->manager->persist($user);
-        // $this->manager->flush();
-
-        $this->manager->persist($product);
+        $this->manager->persist($current_instance);
         $this->manager->flush();
         
-        dd($product);
+        dd($current_instance);
 
         // return $this->render('instance/product.html.twig', [
         //     'product' => $product
