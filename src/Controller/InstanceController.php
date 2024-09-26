@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\InstanceSettings;
 use App\Entity\Product;
+use App\Form\BookingType;
 use App\Repository\InstanceRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
@@ -11,6 +12,7 @@ use App\Services\GlobalVariableService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
@@ -80,21 +82,20 @@ class InstanceController extends AbstractController
     }
     
     #[Route('/instance/{instance}/product/{product}', name: 'app_instance_product_details')]
-    public function product_detail(Product $product): Response
+    public function product_detail(Request $request, Product $product): Response
     {
 
         $form = $this->createForm(BookingType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) { }
+        if ($form->isSubmitted() && $form->isValid()) {
+            dd($form->getData());
+        }
 
         return $this->render('instance/product.html.twig', [
             'form' => $form->createView(),
+            'product' => $product
         ]);
-
-        // return $this->render('instance/product.html.twig', [
-        //     'product' => $product
-        // ]);
     }
 
 
