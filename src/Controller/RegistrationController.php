@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Stripe\StripeClient;
 
 class RegistrationController extends AbstractController
 {
@@ -44,8 +45,15 @@ class RegistrationController extends AbstractController
 
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
-
             $user->setInstance($this->globalVariableService->get('current_instance'));
+            
+            $stripe = new StripeClient($_ENV['STRIPE_SK']);
+            $customer = $stripe->customers->create([
+                'email' => $user->getEmail(),
+                'name' => $user->getLastname(),
+            ]);
+            $user->setStripeId($customer->id);
+
 
             $entityManager->persist($user);
             $entityManager->flush();

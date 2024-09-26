@@ -25,3 +25,6 @@ services:
 
     App\Twig\AppExtension:
         tags: ['twig.extension']
+    App\Services\StripeService:
+        arguments:
+            $stripeSecretKey: '%env(STRIPE_SECRET_KEY)%'
