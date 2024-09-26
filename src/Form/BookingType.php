@@ -13,9 +13,17 @@ class BookingType extends AbstractType
         $builder
             ->add('startDate', DateType::class, [
                 'widget' => 'single_text',
+                'attr' => [
+                    'min' => date('Y-m-d'),
+                    'type' => 'hidden'
+                ]
             ])
             ->add('endDate', DateType::class, [
                 'widget' => 'single_text',
+                'attr' => [
+                    'min' => date('Y-m-d'),
+                    'type' => 'hidden'
+                ]
             ]);
     }
 
