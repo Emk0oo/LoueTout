@@ -24,7 +24,6 @@ class ProductController extends AbstractController
 
 
 
-
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(): Response
     {
@@ -42,12 +41,10 @@ class ProductController extends AbstractController
         ]);
     }
 
-
     #[Route('create', name: 'create', methods: ['GET', 'POST'])]
     #[Route('edit/{product}', name: 'edit', methods: ['GET', 'POST'])]
     public function create_or_edit(Request $request, ?Product $product): Response
     {
-
         $current_instance = $this->globalVariableService->get('current_instance');
 
         if($this->getUser() == null) {

@@ -19,9 +19,10 @@
 			tailwind.config = {
 			theme: {
 				extend: {
-				colors: {
-					accent: 'var(--accent-color)',
-				}
+					colors: {
+						accent: 'var(--accent-color)',
+						secondary: 'var(--secondary-color)',
+					}
 				}
 			}
 			}
@@ -29,6 +30,7 @@
 		<style>
 			:root {
 				--accent-color: {{ current_instance().getSetting('accent-color') ?? '#FFFFFF' }};
+				--secondary-color: {{ current_instance().getSetting('secondary-color') ?? '#E9E9E9' }};
 			}
 		</style>
 	</head>

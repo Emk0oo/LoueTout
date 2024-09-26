@@ -3,19 +3,13 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
-    <div class="bg-white p-8 rounded-lg shadow-md w-1/3">
+<div class="flex p-6 justify-center bg-secondary">
+    <div class="bg-white p-8 rounded-lg shadow-md min-w-96">
         <h1 class="text-2xl font-bold mb-6 text-center">Login</h1>
 
     <form method="post" class="flex flex-col">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
-
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout', { 'instance': current_instance().name }) }}">Logout</a>
-            </div>
         {% endif %}
 
         <label for="username" class="block text-gray-700 text-sm font-semibold mt-5">Mail</label>
@@ -29,8 +23,9 @@
             Sign in
         </button>
     </form>
-    <label class="text-1xl font-bold mt-6"> No account ?</label>
-    <a class="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full" href="{{ path('app_register', { 'instance': current_instance().name }) }}">Register</a>
+
+    <span class="text-1xl font-bold mt-6"> No account ?</span>
+    <a class="mt-6 text-blue-500 hover:text-blue-600 font-bold rounded-full" href="{{ path('app_register', { 'instance': current_instance().name }) }}">Register</a>
 </div>
 </div>
 {% endblock %}
