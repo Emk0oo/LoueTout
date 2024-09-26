@@ -13,9 +13,9 @@ class HistoryController extends AbstractController
     #[Route('instance/{instance}/history', name: 'app_history')]
     public function index(EntityManagerInterface $em): Response
     {
-        $hist = $em->getRepository(RentHistory::class)->findAll();
+        $history = $em->getRepository(RentHistory::class)->findAll();
         return $this->render('history/index.html.twig', [
-            'historyliste' => $hist,
+            'historyliste' => $history,
         ]);
     }
 }

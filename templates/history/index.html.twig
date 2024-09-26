@@ -120,35 +120,45 @@
             </tr>
         </thead>
         <!-- boucle pour afficher les elements dans l'historique-->
+            {% set currentDate = "now"|date %}
             {% for rentHistory in historyliste %}
-                <h2>Historique de location : {{ rentHistory.getId() }}</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Label</th>
-                            <th>Prix</th>
-                            <th>Date de début</th>
-                            <th>Date de fin</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for product in rentHistory.getProduct() %}
-                            <tr>
-                                <td>{{ product.getLabel() }}</td>
-                                <td>{{ product.getPrice() }}€</td>
-                                <td>{{ rentHistory.getStartedAt()|date("d-m-Y H:i") }}</td>
-                                <td>{{ rentHistory.getEndedAt()|date("d-m-Y H:i") }}</td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="4">Aucun produit associé.</td>
-                            </tr>
-                        {% endfor %}
+                {% if rentHistory.getStartedAt() > currentDate %} 
+                    <h2>Location à venir : {{ rentHistory.getId() }}</h2>
+                        <tbody>
+                            {% for product in rentHistory.getProduct() %}
+                                <tr>
+                                    <td>{{ product.getLabel() }}</td>
+                                    <td>{{ product.getPrice() }}€</td>
+                                    <td>{{ rentHistory.getStartedAt()|date("d-m-Y H:i") }}</td>
+                                    <td>{{ rentHistory.getEndedAt()|date("d-m-Y H:i") }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="4">Aucun produit associé.</td>
+                                </tr>
+                            {% endfor %}
+                    {% else %}
+                        <p>Aucune location à venir.</p>
+                        </tbody>
+                {% endif %}
+                    <h2>Historique de location : {{ rentHistory.getId() }}</h2>
+                        <tbody>
+                            {% for product in rentHistory.getProduct() %}
+                                <tr>
+                                    <td>{{ product.getLabel() }}</td>
+                                    <td>{{ product.getPrice() }}€</td>
+                                    <td>{{ rentHistory.getStartedAt()|date("d-m-Y H:i") }}</td>
+                                    <td>{{ rentHistory.getEndedAt()|date("d-m-Y H:i") }}</td>
+                                </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4">Aucun produit associé.</td>
+                                    </tr>
+                            {% endfor %}
+                    {% else %}
+                        <p>Aucun historique de location disponible.</p>
                     </tbody>
-                </table>
-            {% else %}
-                <p>Aucun historique de location disponible.</p>
-        {% endfor %}
+            {% endfor %}
     </table>
 </div>
 {% endblock %}
