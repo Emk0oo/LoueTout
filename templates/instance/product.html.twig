@@ -3,23 +3,26 @@
 {% block title %}{{ product.label }}{% endblock %}
 
 {% block body %}
+<div>
+    <main class="container mx-auto ">
+        <a href="{{ path('app_instance_products', {'instance' : current_instance().name} )}}" class="font-bold text-base inline-block mb-4">
+            Voir tous les produits
+        </a>
 
-<main class="container mx-auto ">
-    <a href="{{ path('app_instance_products', {'instance' : current_instance()} )}}">Voir tous les produits</a>
-    <img src="{{ product.getFirstImage() }}" alt="{{ product.label }}" width="1200" height="400" class="w-full aspect-[3/1] object-cover rounded-xl">
-    <h1 class="text-2xl font-bold mb-4 mt-4">{{ product.label }}</h1>
-    <p>{{ product.description }}</p>
-    <ul class="list-disc pl-4">
-        <li>Loué par {{ product.rentBy.firstname }} {{ product.rentBy.lastname }}</li>
-        <li>{{ product.price }}€ / jour</li>
-        <li>
-            {% if product.canBeRented() %}
-                Disponible
-            {% else %}
-                Indisponible
-            {% endif %}
-        </li>
-    </ul>
-</main>
-
+        <img src="/uploads/images/{{ product.getFirstImage().path }}" alt="{{ product.label }}" width="1200" height="400" class="w-full aspect-[3/1] object-cover rounded-xl">
+        <h1 class="text-2xl font-bold mb-4 mt-4">{{ product.label }}</h1>
+        <p>{{ product.description }}</p>
+        <ul class="list-disc pl-4">
+            <li>Loué par {{ product.rentBy.firstname }} {{ product.rentBy.lastname }}</li>
+            <li>{{ product.price }}€ / jour</li>
+            <li>
+                {% if product.canBeRented() %}
+                    Disponible
+                {% else %}
+                    Indisponible
+                {% endif %}
+            </li>
+        </ul>
+    </main>
+</div>
 {% endblock %}
