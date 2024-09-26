@@ -9,12 +9,12 @@
 
         <div class="flex flex-col gap-4 items-center">
             <!-- Bouton pour mettre en ligne un produit -->
-            <a href="" class="block w-full p-4 bg-stone-100 text-black rounded-lg text-center hover:bg-stone-200 hover:font-bold transition-colors duration-200">
+            <a href="{{ path('app_instance_admin_product_create', {'instance': current_instance().name }) }}" class="block w-full p-4 bg-stone-100 text-black rounded-lg text-center hover:bg-stone-200 hover:font-bold transition-colors duration-200">
                 Post a product online
             </a>
 
             <!-- Bouton vers la liste des produits -->
-            <a href="" class="block w-full p-4 bg-stone-100 text-black rounded-lg text-center hover:bg-stone-200 hover:font-bold transition-colors duration-200">
+            <a href="{{ path('app_instance_admin_product_list', {'instance': current_instance().name }) }}" class="block w-full p-4 bg-stone-100 text-black rounded-lg text-center hover:bg-stone-200 hover:font-bold transition-colors duration-200">
                 My products
             </a>
 
