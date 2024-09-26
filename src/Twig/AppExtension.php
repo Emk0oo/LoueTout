@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Entity\Instance;
 use App\Services\GlobalVariableService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -21,10 +22,10 @@ class AppExtension extends AbstractExtension
     }
 
 
-    public function currentInstance(): string
+    public function currentInstance(): Instance
     {
 
-        $current_instance = $this->globalVariableService->get('current_instance')->getName();
+        $current_instance = $this->globalVariableService->get('current_instance');
 
         return $current_instance;
     }
