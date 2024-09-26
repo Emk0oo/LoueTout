@@ -20,14 +20,16 @@ class RegistrationFormType extends AbstractType
             ->add('email')
             ->add('phone')
             ->add('address')
-            // ->add('agreeTerms', CheckboxType::class, [
-            //     'mapped' => false,
-            //     'constraints' => [
-            //         new IsTrue([
-            //             'message' => 'You should agree to our terms.',
-            //         ]),
-            //     ],
-            // ])
+            ->add('firstname')
+            ->add('lastname')
+            ->add('agreeTerms', CheckboxType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'You should agree to our terms.',
+                    ]),
+                ],
+            ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller

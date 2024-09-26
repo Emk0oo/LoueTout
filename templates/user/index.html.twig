@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block body %}
+<div class="max-w-screen-lg mx-auto p-6 flex justify-center">
+    <div class="w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-6 text-center">User Dashboard</h1>
+
+        <div class="flex flex-col gap-4 items-center">
+            <!-- Bouton pour mettre en ligne un produit -->
+            <a href="{{ path('app_instance_admin_product_create', {'instance': current_instance().name }) }}" class="block w-full p-4 bg-stone-100 text-black rounded-lg text-center hover:bg-stone-200 hover:font-bold transition-colors duration-200">
+                Post a product online
+            </a>
+
+            <!-- Bouton vers la liste des produits -->
+            <a href="{{ path('app_instance_admin_product_list', {'instance': current_instance().name }) }}" class="block w-full p-4 bg-stone-100 text-black rounded-lg text-center hover:bg-stone-200 hover:font-bold transition-colors duration-200">
+                My products
+            </a>
+
+            <!-- Bouton vers l'historique des commandes -->
+            <a href="" class="block w-full p-4 bg-stone-100 text-black rounded-lg text-center hover:bg-stone-200 hover:font-bold transition-colors duration-200">
+                Orders
+            </a>
+
+            <!-- Bouton pour se déconnecter -->
+            <a href="{{path("app_logout", {"instance": current_instance().name})}}" class="block w-full p-4 bg-stone-100 text-black rounded-lg text-center hover:bg-red-400 hover:font-bold transition-colors duration-200">
+                Logout
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
