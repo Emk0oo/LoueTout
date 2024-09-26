@@ -4,25 +4,63 @@
 
 {% block body %}
 <div>
-    <main class="container mx-auto ">
+    <main class="container mx-auto p-6">
         <a href="{{ path('app_instance_products', {'instance' : current_instance().name} )}}" class="font-bold text-base inline-block mb-4">
             Voir tous les produits
         </a>
+                
+        <div class="max-w-2xl mx-auto">
+            <!-- Product image -->
+            <div class="w-full flex justify-center mb-4">
+                <img src="{% if product.images|length > 0 %}/uploads/images/{{ product.getFirstImage().path }}{% else %}/uploads/images/default.jpg{% endif %}" alt="{{ product.label }}" class="w-80 h-80 object-cover rounded-lg shadow-md">
+            </div>
 
-        <img src="/uploads/images/{{ product.getFirstImage().path }}" alt="{{ product.label }}" width="1200" height="400" class="w-full aspect-[3/1] object-cover rounded-xl">
-        <h1 class="text-2xl font-bold mb-4 mt-4">{{ product.label }}</h1>
-        <p>{{ product.description }}</p>
-        <ul class="list-disc pl-4">
-            <li>Loué par {{ product.rentBy.firstname }} {{ product.rentBy.lastname }}</li>
-            <li>{{ product.price }}€ / jour</li>
-            <li>
-                {% if product.canBeRented() %}
-                    Disponible
-                {% else %}
-                    Indisponible
-                {% endif %}
-            </li>
-        </ul>
+            <!-- Availaibility -->
+            {% if product.canBeRented() %}
+                <div class="bg-green-100 text-green-800 p-4 mb-6 rounded-md shadow-md">
+                    This product is available
+                </div>
+            {% else %}
+                <div class="bg-red-100 text-red-800 p-4 mb-6 rounded-md shadow-md">
+                    This product is not available
+                </div>
+            {% endif %}
+
+            <!-- Product title-->
+            <h1 class="text-center text-2xl font-bold mb-4">{{ product.label }}</h1>
+
+            <!-- Description -->
+            <div class="mb-6">
+                <h2 class="text-lg font-semibold mb-2">Description</h2>
+                <p class="text-gray-700 text-base leading-6">
+                    {{ product.description }}
+                </p>
+            </div>
+
+            <!-- Location date -->
+            {{ form_start(form) }}
+            <div class="mb-6" data-controller="flatpickr">
+                <h2 class="text-lg font-semibold mb-2">Location Date</h2>
+                
+                <div class="hidden">
+                    {{ form_widget(form.startDate, {'attr': {'class': 'start-date'}}) }}
+                    {{ form_widget(form.endDate, {'attr': {'class': 'end-date'}}) }}
+                </div>
+        
+                <div>
+                    <input type="date" id="date-range" placeholder="Choose date">
+                </div>
+            </div>
+
+            <!-- Button "Add to cart" -->
+            <div class="w-full flex justify-center">
+                <button class="bg-green-500 text-white font-semibold py-2 px-4 rounded-full hover:bg-green-600 transition duration-200">
+                    Book this product
+                </button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+
     </main>
 </div>
 {% endblock %}

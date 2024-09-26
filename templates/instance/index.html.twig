@@ -5,8 +5,13 @@
 {% block body %}
 
 <main>
-    <div class="container mx-auto">
-        <div class="grid grid-cols-3 gap-3">
+    <div class="container mx-auto p-6">
+
+        <div class="px-6 py-24 text-center bg-secondary rounded-xl">
+            <h1 class="text-3xl font-black">{{ current_instance().getSetting('name') }}</h1>
+        </div>
+
+        <div class="grid grid-cols-3 gap-6 mt-6">
         {% for product in products %}
             {% include "_partials/product-card.html.twig" with {'product': product} %}
         {% endfor %}
