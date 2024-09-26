@@ -117,6 +117,18 @@ class Instance
         return $this->instanceSettings;
     }
 
+    public function getSetting(string $key): ?string
+    {
+        // $dd=$this->instanceSettings;
+        foreach ($this->instanceSettings as $instanceSetting) {
+            if ($instanceSetting->getKey() === $key) {
+                return $instanceSetting->getValue();
+            }
+        }
+        
+        return null;
+    }
+
     public function addInstanceSetting(InstanceSettings $instanceSetting): static
     {
         if (!$this->instanceSettings->contains($instanceSetting)) {
