@@ -2,8 +2,11 @@
 
 namespace App\Form;
 
+use PHPUnit\TextUI\XmlConfiguration\Logging\Text;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -75,6 +78,22 @@ class AddInstanceType extends AbstractType
                         'pattern' => '/^#[0-9a-f]{6}$/i',
                         'message' => 'La couleur doit être au format hexadécimal',
                     ]),
+                ],
+            ])
+            ->add('admin_email', EmailType::class, [
+                'label' => 'Email de l\'administrateur',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez entrer un email',
+                    ]),
+                ],
+            ])
+            ->add('admin_password', PasswordType::class, [
+                'label' => 'Mot de passe de l\'administrateur',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez entrer un mot de passe',
+                    ])
                 ],
             ])
         ;
