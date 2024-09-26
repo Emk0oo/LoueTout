@@ -16,6 +16,18 @@ class RentHistoryRepository extends ServiceEntityRepository
         parent::__construct($registry, RentHistory::class);
     }
 
+    public function isReservationOngoing(\DateTime $startDate, \DateTime $endDate): bool
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.started_at < :endDate')
+            ->andWhere('r.ended_at > :startDate')
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->getQuery();
+
+        return (bool) $qb->getOneOrNullResult(); // retourne true si une réservation est trouvée
+    }
+    
 //    /**
 //     * @return RentHistory[] Returns an array of RentHistory objects
 //     */

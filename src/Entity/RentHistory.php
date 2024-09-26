@@ -42,7 +42,6 @@ class RentHistory
 
     public function __construct()
     {
-        $this->product = new ArrayCollection();
     }
 
     public function getId(): Uuid
@@ -50,27 +49,14 @@ class RentHistory
         return $this->id;
     }
 
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProduct(): Collection
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
 
-    public function addProduct(Product $product): static
+    public function setProduct(?Product $product): static
     {
-        if (!$this->product->contains($product)) {
-            $this->product->add($product);
-            $product->setRentHistory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): static
-    {
-        $this->product->removeElement($product);
+        $this->product = $product;
 
         return $this;
     }
