@@ -57,42 +57,6 @@ class InstanceController extends AbstractController
     }
 
 
-    #[Route('/instance/{instance}/product/create', name: 'app_instance_product_create')]
-    public function product_create(): Response
-    {
-
-        $current_instance = $this->globalVariableService->get('current_instance');
-
-        // Ajouter un produit
-
-        $user = $this->userRepository->findOneBy(['email' => 'john.doe@mail.com']);
-
-        $product = new Product();
-        $product->setLabel('product-'.uniqid());
-        $product->setPrice(1000);
-        $product->setDescription('description');
-        $product->setInstance($current_instance);
-        $product->setRentBy($user);
-        // $user = new User();
-        // $user->setFirstname('John');
-        // $user->setLastname('Doe');
-        // $user->setEmail('john.doe@mail.com');
-        // $user->setPassword($this->passwordHasher->hashPassword($user, 'password'));
-        // $user->setPhone('0606060606');
-        // $user->setAddress('1 rue du test');
-        // $this->manager->persist($user);
-        // $this->manager->flush();
-
-        $this->manager->persist($product);
-        $this->manager->flush();
-        
-        dd($product);
-
-        // return $this->render('instance/product.html.twig', [
-        //     'product' => $product
-        // ]);
-    }
-
     #[Route('/instance/{instance}/setting', name: 'app_instance_setting')]
     public function setting(): Response
     {
