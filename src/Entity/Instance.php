@@ -119,6 +119,7 @@ class Instance
 
     public function getSetting(string $key): ?string
     {
+        // $dd=$this->instanceSettings;
         foreach ($this->instanceSettings as $instanceSetting) {
             if ($instanceSetting->getKey() === $key) {
                 return $instanceSetting->getValue();
