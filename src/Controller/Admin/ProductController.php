@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Product;
 use App\Entity\ProductImage;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/instance/{instance}/products/', name: 'app_instance_product_')]
+#[Route('/instance/{instance}/user/products/', name: 'app_instance_admin_product_')]
 class ProductController extends AbstractController
 {
 
@@ -21,6 +21,19 @@ class ProductController extends AbstractController
         private GlobalVariableService $globalVariableService
     ) {
     }
+
+
+
+
+    #[Route('', name: 'list', methods: ['GET'])]
+    public function list(): Response
+    {
+
+        dd('list');
+
+        return $this->redirectToRoute('app_instance', ['instance' => $current_instance->getName()]);
+    }
+
 
     #[Route('create', name: 'create', methods: ['GET', 'POST'])]
     #[Route('edit/{product}', name: 'edit', methods: ['GET', 'POST'])]
