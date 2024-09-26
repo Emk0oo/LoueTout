@@ -26,18 +26,7 @@ class KernelRequestEvent
     }
 
     public function onKernelRequest(RequestEvent $event): void
-    {
-        // si la requete commence par /super-admin
-        if(preg_match('#^/super-admin#', $event->getRequest()->getRequestUri())){
-            $doctrineConnection = $this->registry->getConnection('default');
-            $doctrineConnection->changeDatabase([
-                'dbname' => "app",
-                'user' => "user",
-                'password' => "password"
-            ]);
-            
-        }
-        
+    {        
         if($event->getRequest()->attributes->has('instance')) {
 
             $instance_name = $event->getRequest()->attributes->get('instance');
@@ -45,7 +34,7 @@ class KernelRequestEvent
             $instance = $this->instanceRepository->findOneBy([
                 'name' => $instance_name
             ]);
-
+            
             if($instance === null) {
                 throw new \Exception('Instance not found');
             }
