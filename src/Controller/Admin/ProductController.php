@@ -29,9 +29,17 @@ class ProductController extends AbstractController
     public function list(): Response
     {
 
-        dd('list');
+        $current_instance = $this->globalVariableService->get('current_instance');
+        
+        if($this->getUser() == null) {
+            return $this->redirectToRoute('app_login', ['instance' => $current_instance->getName() ]);
+        }
 
-        return $this->redirectToRoute('app_instance', ['instance' => $current_instance->getName()]);
+        $products = $this->getUser()->getProducts();
+
+        return $this->render('admin/product/list.html.twig', [
+            'products' => $products
+        ]);
     }
 
 
@@ -88,7 +96,7 @@ class ProductController extends AbstractController
             return $this->redirectToRoute('app_instance', ['instance' => $current_instance->getName()]);
         }
 
-        return $this->render('product/create.html.twig', [
+        return $this->render('admin/product/create.html.twig', [
             'form' => $form->createView()
         ]);
     }
