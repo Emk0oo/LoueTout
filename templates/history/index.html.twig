@@ -6,6 +6,7 @@
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+
     .header {
         display: flex;
         justify-content: space-between; /* Permet de séparer les div */
@@ -33,20 +34,18 @@
         border-bottom: 1px solid #ddd;
     }
 
-    /* Row hover effect */
     tr:nth-child(even):hover {
         background-color: #ffffff;
     }
 
-    /* Styling for the paragraphs inside the table */
     td p {
         margin: 0;
     }
 
-    /* Alternate row colors */
     tr:nth-child(even) {
         background-color: #f9f9f9;
     }
+
     .buttons-container {
         display: flex;
         justify-content: right;
@@ -79,7 +78,6 @@
     .btn-login:hover {
         background-color: #0056b3;
     }
-    /* Responsive design for small screens */
     @media (max-width: 600px) {
         table {
             width: 100%;
@@ -111,7 +109,8 @@
         </div>
     </div>
 </header>
-<div class="example-wrapper">
+<div class="example-wrapper"> 
+    <!-- tableau pour l'historique-->
     <table>
         <thead>
             <tr>
@@ -120,20 +119,35 @@
                 </th>
             </tr>
         </thead>
-        {% for item in historyliste %}
-        <tr>
-                <td>
-                    <p>{{ item.brand }}</p>
-                </td>
-                <td> 
-                <p>{{ item.pickup|date('F j, Y') }} to {{ item.return|date('F j, Y') }}</p>    
-                </td>
-                <td>
-                <p>{{ item.price }}€</p>
-                </td>
-            </tr>
-        {% else %}
-            <p>No rentals history available.</p>
+        <!-- boucle pour afficher les elements dans l'historique-->
+            {% for rentHistory in historyliste %}
+                <h2>Historique de location : {{ rentHistory.getId() }}</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Label</th>
+                            <th>Prix</th>
+                            <th>Date de début</th>
+                            <th>Date de fin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in rentHistory.getProduct() %}
+                            <tr>
+                                <td>{{ product.getLabel() }}</td>
+                                <td>{{ product.getPrice() }}€</td>
+                                <td>{{ rentHistory.getStartedAt()|date("d-m-Y H:i") }}</td>
+                                <td>{{ rentHistory.getEndedAt()|date("d-m-Y H:i") }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">Aucun produit associé.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Aucun historique de location disponible.</p>
         {% endfor %}
     </table>
 </div>
