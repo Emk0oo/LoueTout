@@ -46,38 +46,6 @@
         background-color: #f9f9f9;
     }
 
-    .buttons-container {
-        display: flex;
-        justify-content: right;
-        gap: 20px;
-    }
-
-    a {
-        text-decoration: none;
-        font-size: 18px;
-        padding: 5px 5px;
-        color: white;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-    }
-
-    .icon {
-        width: 20px;
-        height: 20px;
-       
-    }
-    .icon:hover{
-         filter: invert(50%) sepia(100%) saturate(500%) hue-rotate(200deg);
-    }
-
-    .btn-login {
-        background-color: #F2EDE8;
-        padding: 10px 20px;
-    }
-    .btn-login:hover {
-        background-color: #0056b3;
-    }
     @media (max-width: 600px) {
         table {
             width: 100%;
@@ -92,23 +60,6 @@
 }
 </style>
 
-<header class="header">
-    <div>
-        <!--ici logo du site-->
-        <p>Example Name</p>
-    </div>
-    <div>
-        <div class="buttons-container">
-            <!-- Bouton Accueil avec une icône de maison -->
-            <a href="/home" class="btn-home">
-             <img src="{{ asset('images/home-icon.svg') }}" alt="Maison" class="icon">
-            </a>
-            
-            <!-- Bouton Login -->
-            <a href="/login" class="btn-login">Login</a>
-        </div>
-    </div>
-</header>
 <div class="example-wrapper"> 
     <!-- tableau pour l'historique-->
     <table>
@@ -138,7 +89,9 @@
                                 </tr>
                             {% endfor %}
                     {% else %}
-                        <p>Aucune location à venir.</p>
+                        <tr>
+                            <td>Aucune location à venir.</td>
+                        </tr>
                         </tbody>
                 {% endif %}
                     <h2>Historique de location : {{ rentHistory.getId() }}</h2>
@@ -156,7 +109,9 @@
                                     </tr>
                             {% endfor %}
                     {% else %}
-                        <p>Aucun historique de location disponible.</p>
+                        <tr>
+                            <td>Aucun historique de location disponible.</td>
+                        </tr>
                     </tbody>
             {% endfor %}
     </table>

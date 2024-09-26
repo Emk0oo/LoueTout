@@ -22,7 +22,7 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'app_home')]
     public function index(): Response
     { 
-       /* $application = new Application($this->kernel);
+        $application = new Application($this->kernel);
         $application->setAutoExit(false);
       
         $instance_uuid = uniqid();
@@ -40,7 +40,7 @@ class HomeController extends AbstractController
         
         $application->run($input, new NullOutput());
         
-        echo 'Instance created with id: '.$instance->getName();*/
+        echo 'Instance created with id: '.$instance->getName();
  
  
         return $this->render('home/index.html.twig', [
