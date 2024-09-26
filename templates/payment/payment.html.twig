@@ -23,12 +23,13 @@
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            const {clientSecret} = await fetch('/create-payment-intent', {
+
+            const {clientSecret} = await fetch('/instance/{{current_instance().name}}/create-payment-intent', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({amount: 1000}),
+                body: JSON.stringify({amount: 10}),
             }).then(response => response.json());
 
             const {error, paymentIntent} = await stripe.confirmCardPayment(clientSecret, {
