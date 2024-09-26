@@ -82,9 +82,19 @@ class InstanceController extends AbstractController
     #[Route('/instance/{instance}/product/{product}', name: 'app_instance_product_details')]
     public function product_detail(Product $product): Response
     {
+
+        $form = $this->createForm(BookingType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) { }
+
         return $this->render('instance/product.html.twig', [
-            'product' => $product
+            'form' => $form->createView(),
         ]);
+
+        // return $this->render('instance/product.html.twig', [
+        //     'product' => $product
+        // ]);
     }
 
 
