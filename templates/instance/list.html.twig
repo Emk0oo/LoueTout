@@ -1,20 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bienvenue !{% endblock %}
+{% block title %}Liste des produits !{% endblock %}
 
 {% block body %}
 
 <main class="container mx-auto ">
+    <h1 class="text-2xl font-bold mb-4">Liste des produits</h1>
     <div class="grid grid-cols-3 gap-3">
     {% for product in products %}
         {% include "_partials/product-card.html.twig" with {'product': product} %}
     {% endfor %}
-    </div>
-
-    <div class="text-center mt-8">
-        <a href="{{ path('app_instance_products', {'instance' : current_instance()} )}}" class="font-bold text-base">
-            Voir tous les produits
-        </a>
     </div>
 </main>
 
