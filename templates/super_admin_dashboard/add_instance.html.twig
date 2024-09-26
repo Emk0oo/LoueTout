@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une instance{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <div>Ajouter une instance</div>
+    {{ form_start(form) }}
+        <div>
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+            {{ form_errors(form.name) }}
+        </div>
+
+        <div>
+            {{ form_label(form.color1) }}
+            {{ form_widget(form.color1) }}
+            {{ form_errors(form.color1) }}
+        </div>
+
+        <div>
+            {{ form_label(form.color2) }}
+            {{ form_widget(form.color2) }}
+            {{ form_errors(form.color2) }}
+        </div>
+
+        <div>
+            {{ form_label(form.color3) }}
+            {{ form_widget(form.color3) }}
+            {{ form_errors(form.color3) }}
+        </div>
+
+        <div>
+            {{ form_label(form.color4) }}
+            {{ form_widget(form.color4) }}
+            {{ form_errors(form.color4) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
