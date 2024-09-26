@@ -1,9 +1,7 @@
 <footer class="fixed bottom-0 left-0 w-full border-t-2 border-gray-200  py-4">
     <div class="max-w-screen-xl mx-auto flex flex-col md:flex-row items-center justify-between px-4">
-        <!-- Left side: Company info -->
-        <p class="text-sm text-gray-600">&copy; 2024 LoueTout. All rights reserved.</p>
+        <p class="text-sm text-gray-600">&copy; 2024 {{ current_instance().getSetting('name') }}. All rights reserved.</p>
 
-        <!-- Right side: Links -->
         <ul class="flex space-x-6 mt-2 md:mt-0">
             <li><a href="#" class="text-sm text-gray-600 hover:underline">About Us</a></li>
             <li><a href="#" class="text-sm text-gray-600 hover:underline">Contact</a></li>

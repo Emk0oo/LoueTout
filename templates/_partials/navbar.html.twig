@@ -8,7 +8,7 @@
 			<input class="flex items-center px-2 py-2 rounded-lg bg-stone-100 hover:bg-stone-200" placeholder="Search"></input>
 
 		{% if app.user is null or is_granted('IS_ANONYMOUS') %}
-			<button class="flex items-center px-4 py-2 rounded-lg bg-stone-100 hover:bg-stone-200 font-bold text-nowrap">Log in</button>
+			<a id='login' href="{{path("app_login", {"instance": current_instance().name})}}" class="flex items-center px-4 py-2 rounded-lg bg-stone-100 hover:bg-stone-200 font-bold text-nowrap">Log in</a>
 		{% endif %}
 
 		<button class="flex w-1/6 items-center px-4 py-2 rounded-lg bg-stone-100 hover:bg-stone-200">
@@ -26,12 +26,12 @@
 		{{app.user}}
 
 		{% if app.user is not null and not is_granted('IS_ANONYMOUS') %}
-			<button class="flex w-1/6 items-center px-4 py-2 rounded-lg bg-stone-100 hover:bg-stone-200">
+			<a href="{{path("app_login", {"instance": current_instance().name})}}" class="flex w-1/6 items-center px-4 py-2 rounded-lg bg-stone-100 hover:bg-stone-200">
 				<svg width="20px" height="20px" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<circle cx="12" cy="6" r="4" stroke="#1C274C" stroke-width="1.5"/>
 					<path d="M15 20.6151C14.0907 20.8619 13.0736 21 12 21C8.13401 21 5 19.2091 5 17C5 14.7909 8.13401 13 12 13C15.866 13 19 14.7909 19 17C19 17.3453 18.9234 17.6804 18.7795 18" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
 				</svg>
-			</button>
+			</a>
 		{% endif %}
 	</div>
 </div></nav>
