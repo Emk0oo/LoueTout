@@ -13,11 +13,30 @@
 				{{ importmap('app') }}
 			{% endblock %}
 		{% endblock %}
+
 		<script src="https://cdn.tailwindcss.com"></script>
+		<script>
+			tailwind.config = {
+			theme: {
+				extend: {
+				colors: {
+					accent: 'var(--accent-color)',
+				}
+				}
+			}
+			}
+		</script>
+		<style>
+			:root {
+				--accent-color: {{ current_instance().getSetting('accent-color') ?? '#FFFFFF' }};
+			}
+		</style>
 	</head>
 	<body>
 		{% include './_partials/navbar.html.twig' %}
+		<div class="bg-accent pb-20">
 		{% block body %}{% endblock %}
+		</div>
         {% include './_partials/footer.html.twig' %}
 	</body>
 </html>
