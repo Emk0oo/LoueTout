@@ -4,17 +4,19 @@
 
 {% block body %}
 
-<main class="container mx-auto ">
-    <div class="grid grid-cols-3 gap-3">
-    {% for product in products %}
-        {% include "_partials/product-card.html.twig" with {'product': product} %}
-    {% endfor %}
-    </div>
+<main class="bg-amber-50">
+    <div class="container mx-auto">
+        <div class="grid grid-cols-3 gap-3">
+        {% for product in products %}
+            {% include "_partials/product-card.html.twig" with {'product': product} %}
+        {% endfor %}
+        </div>
 
-    <div class="text-center mt-8">
-        <a href="{{ path('app_instance_products', {'instance' : current_instance().name} )}}" class="font-bold text-base">
-            Voir tous les produits
-        </a>
+        <div class="text-center mt-8">
+            <a href="{{ path('app_instance_products', {'instance' : current_instance().name} )}}" class="font-bold text-base">
+                Voir tous les produits
+            </a>
+        </div>
     </div>
 </main>
 
