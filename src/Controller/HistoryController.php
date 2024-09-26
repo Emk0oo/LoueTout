@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class HistoryController extends AbstractController
 {
-    #[Route('/history', name: 'app_history')]
+    #[Route('instance/{instance}/history', name: 'app_history')]
     public function index(EntityManagerInterface $em): Response
     {
         $hist = $em->getRepository(RentHistory::class)->findAll();
