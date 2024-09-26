@@ -23,7 +23,8 @@ class ProductController extends AbstractController
     }
 
     #[Route('create', name: 'create', methods: ['GET', 'POST'])]
-    public function create(Request $request): Response
+    #[Route('edit/{product}', name: 'edit', methods: ['GET', 'POST'])]
+    public function create_or_edit(Request $request, ?Product $product): Response
     {
 
         $current_instance = $this->globalVariableService->get('current_instance');
@@ -32,14 +33,16 @@ class ProductController extends AbstractController
             return $this->redirectToRoute('app_login', ['instance' => $current_instance->getName() ]);
         }
 
-        $product = new Product();
+        if($product == null) {
+            $product = new Product();
+        }
 
         $form = $this->createForm(ProductType::class, $product);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Gérer le téléchargement des fichiers
+            
             foreach ($form->get('image')->getData() as $imageForm) {
 
                 $uploadedFile = $imageForm->getPathName();
@@ -51,13 +54,11 @@ class ProductController extends AbstractController
                 if ($uploadedFile) {
                     $newFilename = uniqid() . $extension;
 
-                    // Déplace le fichier vers le répertoire des images
                     rename(
                         $uploadedFile,
                         $this->getParameter('images_directory') . '/' . $newFilename
                     );
 
-                    // Crée une nouvelle image
                     $productImage = new ProductImage();
                     $productImage->setPath($newFilename);
                     $product->addImage($productImage);
@@ -77,5 +78,31 @@ class ProductController extends AbstractController
         return $this->render('product/create.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('delete/{product}', name: 'delete', methods: ['GET'])]
+    public function delete(Product $product): Response
+    {
+
+        $current_instance = $this->globalVariableService->get('current_instance');
+
+        if($this->getUser() == null) {
+            return $this->redirectToRoute('app_login', ['instance' => $current_instance->getName() ]);
+        }
+
+        if($product->getRentBy() != $this->getUser()) {
+            return $this->redirectToRoute('app_instance', ['instance' => $current_instance->getName()]);
+        }
+
+        foreach ($product->getImages() as $image) {
+            if(file_exists($this->getParameter('images_directory') . '/' . $image->getPath())) {
+                unlink($this->getParameter('images_directory') . '/' . $image->getPath());
+            }
+        }
+
+        $this->entityManager->remove($product);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('app_instance', ['instance' => $current_instance->getName()]);
     }
 }
