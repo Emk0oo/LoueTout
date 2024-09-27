@@ -32,6 +32,17 @@ class AddInstanceType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('productType', TextType::class, [
+                'label' => 'Product type for your app',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a product type',
+                    ]),
+                    new Length([
+                        'max' => 255,
+                    ]),
+                ],
+            ])
             ->add('color1', ColorType::class, [
                 'label' => 'Principal color',
                 'constraints' => [
@@ -46,30 +57,6 @@ class AddInstanceType extends AbstractType
             ])
             ->add('color2', ColorType::class, [
                 'label' => 'Secondary color',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a color',
-                    ]),
-                    new Regex([
-                        'pattern' => '/^#[0-9a-f]{6}$/i',
-                        'message' => 'Color must be in hexadecimal format',
-                    ]),
-                ],
-            ])
-            ->add('color3', ColorType::class, [
-                'label' => 'Couleur tertiaire',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a color',
-                    ]),
-                    new Regex([
-                        'pattern' => '/^#[0-9a-f]{6}$/i',
-                        'message' => 'Color must be in hexadecimal format',
-                    ]),
-                ],
-            ])
-            ->add('color4', ColorType::class, [
-                'label' => 'Couleur accent',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a color',

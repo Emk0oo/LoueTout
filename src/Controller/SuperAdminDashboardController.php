@@ -44,25 +44,22 @@ class SuperAdminDashboardController extends AbstractController
 
             $instance_uuid = uniqid();
             $instance = new Instance();
-            $instance->setName($form->get('name')->getData() . '-' . $instance_uuid);
+            $instance_name = str_replace(' ', '-', $form->get('name')->getData());
+            $instance->setName($instance_name . '-' . $instance_uuid);
 
             $em->persist($instance);
 
             $color1 = new InstanceSettings();
-            $color1->setKey('color1')->setValue($form->get('color1')->getData())->setInstance($instance);
+            $color1->setKey('primary')->setValue($form->get('color1')->getData())->setInstance($instance);
             $em->persist($color1);
 
             $color2 = new InstanceSettings();
-            $color2->setKey('color2')->setValue($form->get('color2')->getData())->setInstance($instance);
+            $color2->setKey('accent')->setValue($form->get('color2')->getData())->setInstance($instance);
             $em->persist($color2);
 
-            $color3 = new InstanceSettings();
-            $color3->setKey('color3')->setValue($form->get('color3')->getData())->setInstance($instance);
-            $em->persist($color3);
-
-            $color4 = new InstanceSettings();
-            $color4->setKey('color4')->setValue($form->get('color4')->getData())->setInstance($instance);
-            $em->persist($color4);
+            $productType = new InstanceSettings();
+            $productType->setKey('name')->setValue($form->get('productType')->getData())->setInstance($instance);
+            $em->persist($productType);
 
             $user_admin = new User();
             $user_admin->setEmail($form->get('admin_email')->getData())
