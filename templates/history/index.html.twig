@@ -74,7 +74,7 @@
             {% set currentDate = "now"|date %}
             {% for rentHistory in historyliste %}
                 {% if rentHistory.getStartedAt() > currentDate %} 
-                    <h2>Location à venir : {{ rentHistory.getId() }}</h2>
+                    <h2>Upcoming Rental: {{ rentHistory.getId() }}</h2>
                         <tbody>
                             {% for product in rentHistory.getProduct() %}
                                 <tr>
@@ -85,16 +85,16 @@
                                 </tr>
                             {% else %}
                                 <tr>
-                                    <td colspan="4">Aucun produit associé.</td>
+                                    <td colspan="4">No associated product.</td>
                                 </tr>
                             {% endfor %}
                     {% else %}
                         <tr>
-                            <td>Aucune location à venir.</td>
+                            <td>No upcoming rentals.</td>
                         </tr>
                         </tbody>
                 {% endif %}
-                    <h2>Historique de location : {{ rentHistory.getId() }}</h2>
+                    <h2>Rental History: {{ rentHistory.getId() }}</h2>
                         <tbody>
                             {% for product in rentHistory.getProduct() %}
                                 <tr>
@@ -105,12 +105,12 @@
                                 </tr>
                                 {% else %}
                                     <tr>
-                                        <td colspan="4">Aucun produit associé.</td>
+                                        <td colspan="4">No associated product.</td>
                                     </tr>
                             {% endfor %}
                     {% else %}
                         <tr>
-                            <td>Aucun historique de location disponible.</td>
+                            <td>No rental history available.</td>
                         </tr>
                     </tbody>
             {% endfor %}
