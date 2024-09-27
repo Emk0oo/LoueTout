@@ -15,6 +15,12 @@
                 {{ form_errors(form.name) }}
             </div>
 
+            <div class="flex flex-col">
+                {{ form_label(form.productType) }}
+                {{ form_widget(form.productType, {'attr': {'class': 'form-control rounded-lg bg-gray-100 p-2'}}) }}
+                {{ form_errors(form.productType) }}
+            </div>
+
             <div class="flex flex-col mt-2">
                 {{ form_label(form.color1) }}
                 {{ form_widget(form.color1, {'attr': {'class': 'form-control rounded-lg bg-gray-100 p-1'}}) }}
