@@ -16,6 +16,7 @@ class HistoryController extends AbstractController
         $history = $em->getRepository(RentHistory::class)->findAll();
         return $this->render('history/index.html.twig', [
             'historyliste' => $history,
+            
         ]);
     }
 }
