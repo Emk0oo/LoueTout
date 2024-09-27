@@ -1,12 +1,12 @@
 {% extends 'super_admin_base.html.twig' %}
 
-{% block title %}Ajouter une instance{% endblock %}
+{% block title %}Add an instance{% endblock %}
 
 {% block body %}
 
 <div class="min-h-screen flex items-center justify-center bg-gray-100">
     <div class="bg-white p-8 rounded-lg shadow-md w-1/3">
-        <h1 class="text-2xl font-bold mb-6 text-center">Ajouter une instance</h1>
+        <h1 class="text-2xl font-bold mb-6 text-center">Add an instance</h1>
 
         {{ form_start(form) }}
             <div class="flex flex-col">
@@ -51,7 +51,7 @@
                 {{ form_errors(form.admin_password) }}
             </div>
 
-            <button type="submit" class="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full">Ajouter</button>
+            <button type="submit" class="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full">Add</button>
         {{ form_end(form) }}
     </div>
 </div>
