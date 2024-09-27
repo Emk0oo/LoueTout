@@ -8,6 +8,12 @@
         <h1 class="text-2xl font-bold mb-6 text-center">User Dashboard</h1>
 
         <div class="flex flex-col gap-4 items-center">
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_instance_parameters', {'instance': current_instance().name }) }}" class="block w-full p-4 bg-stone-100 text-black rounded-lg text-center hover:bg-stone-200 hover:font-bold transition-colors duration-200">
+                    Modify website parameters
+                </a>
+            {% endif %}
             <!-- Bouton pour mettre en ligne un produit -->
             <a href="{{ path('app_instance_admin_product_create', {'instance': current_instance().name }) }}" class="block w-full p-4 bg-stone-100 text-black rounded-lg text-center hover:bg-stone-200 hover:font-bold transition-colors duration-200">
                 Post a product online
