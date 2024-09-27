@@ -50,11 +50,11 @@ class SuperAdminDashboardController extends AbstractController
             $em->persist($instance);
 
             $color1 = new InstanceSettings();
-            $color1->setKey('primary')->setValue($form->get('color1')->getData())->setInstance($instance);
+            $color1->setKey('accent')->setValue($form->get('color1')->getData())->setInstance($instance);
             $em->persist($color1);
 
             $color2 = new InstanceSettings();
-            $color2->setKey('accent')->setValue($form->get('color2')->getData())->setInstance($instance);
+            $color2->setKey('secondary')->setValue($form->get('color2')->getData())->setInstance($instance);
             $em->persist($color2);
 
             $productType = new InstanceSettings();
