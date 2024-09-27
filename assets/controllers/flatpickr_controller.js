@@ -3,16 +3,20 @@ import { Controller } from '@hotwired/stimulus';
 import '../flatpickr.js';
 import '../styles/flatpickr.min.css';  // Importer le style de Flatpickr
 
-console.log('hello');
+
 
 export default class extends Controller {
     connect() {
+
+        const disabledDates = this.element.dataset.disabled
+
         flatpickr(this.element.querySelector('#date-range'), {
             dateFormat: "Y-m-d",
             minDate: "today", 
             locale: {
-                firstDayOfWeek: 1
+                firstDayOfWeek: 1,
             },
+            disable: JSON.parse(disabledDates),
             mode: 'range',
             onChange: (e) => {
                 if(e.length === 2) {

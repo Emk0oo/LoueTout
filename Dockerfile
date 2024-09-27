@@ -14,6 +14,13 @@ RUN apt-get update && apt-get install -y \
 # Télécharger et installer Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
+
+# Installer Symfony CLI
+RUN curl -sS https://get.symfony.com/cli/installer | bash \
+    && mv /root/.symfony*/bin/symfony /usr/local/bin/symfony
+ENV PATH="/root/.symfony/bin:${PATH}"
+
+
 # Copier les fichiers de l'application dans le conteneur
 WORKDIR /var/www/html
 COPY . .
@@ -28,4 +35,5 @@ RUN chown -R www-data:www-data /var/www/html
 EXPOSE 8000
 
 # Commande pour démarrer Symfony
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+# CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+CMD ["symfony", "server:start"]

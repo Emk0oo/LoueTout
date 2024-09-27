@@ -6,7 +6,7 @@
 			{% block title %}Welcome!
 			{% endblock %}
 		</title>
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"> {% block stylesheets %}{% endblock %}
+		{% block stylesheets %}{% endblock %}
 
 		{% block javascripts %}
 			{% block importmap %}
@@ -21,7 +21,7 @@
 				extend: {
 					colors: {
 						accent: 'var(--accent-color)',
-						secondary: 'var(--secondary-color)',
+      					secondary: 'var(--secondary-color)',
 					}
 				}
 			}
@@ -29,14 +29,14 @@
 		</script>
 		<style>
 			:root {
-				--accent-color: {{ current_instance().getSetting('accent-color') ?? '#FFFFFF' }};
-				--secondary-color: {{ current_instance().getSetting('secondary-color') ?? '#E9E9E9' }};
+				--accent-color: {{ current_instance().getSetting('accent') ?? '#FFFFFF' }};
+				--secondary-color: {{ current_instance().getSetting('secondary ') ?? '#E9E9E9' }};
 			}
 		</style>
 	</head>
 	<body>
 		{% include './_partials/navbar.html.twig' %}
-		<div class="bg-accent pb-20">
+		<div class="pb-20">
 		{% block body %}{% endblock %}
 		</div>
         {% include './_partials/footer.html.twig' %}

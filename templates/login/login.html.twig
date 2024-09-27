@@ -19,13 +19,13 @@
         <input type="hidden" name="_csrf_token"
                value="{{ csrf_token('authenticate') }}"
         >
-        <button class="mt-4 py-2 mb-8 bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 rounded-full" type="submit">
+        <button class="mt-4 py-2 mb-8 bg-accent text-white font-bold px-4 rounded-full" type="submit">
             Sign in
         </button>
     </form>
 
     <span class="text-1xl font-bold mt-6"> No account ?</span>
-    <a class="mt-6 text-blue-500 hover:text-blue-600 font-bold rounded-full" href="{{ path('app_register', { 'instance': current_instance().name }) }}">Register</a>
+    <a class="mt-6 text-accent font-bold rounded-full" href="{{ path('app_register', { 'instance': current_instance().name }) }}">Register</a>
 </div>
 </div>
 {% endblock %}
