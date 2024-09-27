@@ -20,79 +20,66 @@ class AddInstanceType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom de l\'instance',
+                'label' => 'Instance  name',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer un nom pour l\'instance',
+                        'message' => 'Please enter an instance name',
                     ]),
                     new Length([
                         'min' => 3,
-                        'minMessage' => 'Le nom de l\'instance doit contenir au moins {{ limit }} caractères',
+                        'minMessage' => 'Instance name must be at least {{ limit }} characters',
+                        'max' => 255,
+                    ]),
+                ],
+            ])
+            ->add('productType', TextType::class, [
+                'label' => 'Product type for your app',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a product type',
+                    ]),
+                    new Length([
                         'max' => 255,
                     ]),
                 ],
             ])
             ->add('color1', ColorType::class, [
-                'label' => 'Couleur principale',
+                'label' => 'Principal color',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer une couleur',
+                        'message' => 'Please enter a color',
                     ]),
                     new Regex([
                         'pattern' => '/^#[0-9a-f]{6}$/i',
-                        'message' => 'La couleur doit être au format hexadécimal',
+                        'message' => 'Color must be in hexadecimal format',
                     ]),
                 ],
             ])
             ->add('color2', ColorType::class, [
-                'label' => 'Couleur secondaire',
+                'label' => 'Secondary color',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer une couleur',
+                        'message' => 'Please enter a color',
                     ]),
                     new Regex([
                         'pattern' => '/^#[0-9a-f]{6}$/i',
-                        'message' => 'La couleur doit être au format hexadécimal',
-                    ]),
-                ],
-            ])
-            ->add('color3', ColorType::class, [
-                'label' => 'Couleur tertiaire',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez entrer une couleur',
-                    ]),
-                    new Regex([
-                        'pattern' => '/^#[0-9a-f]{6}$/i',
-                        'message' => 'La couleur doit être au format hexadécimal',
-                    ]),
-                ],
-            ])
-            ->add('color4', ColorType::class, [
-                'label' => 'Couleur accent',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez entrer une couleur',
-                    ]),
-                    new Regex([
-                        'pattern' => '/^#[0-9a-f]{6}$/i',
-                        'message' => 'La couleur doit être au format hexadécimal',
+                        'message' => 'Color must be in hexadecimal format',
                     ]),
                 ],
             ])
             ->add('admin_email', EmailType::class, [
-                'label' => 'Email de l\'administrateur',
+                'label' => 'Administrator email',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer un email',
+                        'message' => 'Please enter an email',
                     ]),
                 ],
             ])
             ->add('admin_password', PasswordType::class, [
-                'label' => 'Mot de passe de l\'administrateur',
+                'label' => 'Administrator password',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez entrer un mot de passe',
+                        'message' => 'Please enter a password',
                     ])
                 ],
             ])

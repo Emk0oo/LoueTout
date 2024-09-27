@@ -19,21 +19,24 @@
 			tailwind.config = {
 			theme: {
 				extend: {
-
+					colors: {
+						accent: 'var(--accent-color)',
+      					secondary: 'var(--secondary-color)',
+					}
 				}
 			}
 			}
 		</script>
 		<style>
 			:root {
-				--accent-color: {{ current_instance().getSetting('accent-color') ?? '#FFFFFF' }};
-				--secondary-color: {{ current_instance().getSetting('secondary-color') ?? '#E9E9E9' }};
+				--accent-color: {{ current_instance().getSetting('accent') ?? '#FFFFFF' }};
+				--secondary-color: {{ current_instance().getSetting('secondary ') ?? '#E9E9E9' }};
 			}
 		</style>
 	</head>
 	<body>
 		{% include './_partials/navbar.html.twig' %}
-		<div class="bg-accent pb-20">
+		<div class="pb-20">
 		{% block body %}{% endblock %}
 		</div>
         {% include './_partials/footer.html.twig' %}
