@@ -3,14 +3,17 @@
 {% block title %}Admin dashboard{% endblock %}
 
 {% block body %}
+<div class="bg-[#F7FAFC] h-screen">
+    <h1 class="text-2xl font-medium p-5 border-b-2 border-[#E8EDF2]">Bienvenue {{ app.user.firstname }} {{ app.user.lastname }}</h1>
 
-<a href="{{ path('app_super_admin_add_instance') }}" class="btn btn-primary">Créer une instance</a>
-
-<h1>Liste des instances</h1>
-<ul>
-    {% for instance in instanceList %}
-        <li>{{ instance.name }}</li>
-    {% endfor %}
-</ul>
-
+    <div class="flex items-center justify-between w-3/4 my-0 mx-auto">
+        <h2 class="text-xl">Instances</h2>
+        <a href="{{ path('app_super_admin_add_instance') }}" class="w-fit mt-4 py-2 mb-8 bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 rounded-full">Créer une instance</a>
+    </div>
+    <ul class="space-y-4 w-3/4 my-0 mx-auto">
+        {% for instance in instanceList %}
+            <li class="p-4 border-2 border-[#E8EDF2] rounded-lg">{{ instance.name }}</li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

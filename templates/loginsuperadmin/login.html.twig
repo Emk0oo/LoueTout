@@ -3,7 +3,11 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <form method="post">
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="bg-white p-8 rounded-lg shadow-md w-1/3">
+        <h1 class="text-2xl font-bold mb-6 text-center">Login</h1>
+
+    <form method="post" class="flex flex-col">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -14,28 +18,17 @@
             </div>
         {% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="username">Email</label>
-        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-
+        <label for="username" class="block text-gray-700 text-sm font-semibold mt-5">Mail</label>
+        <input type="email" value="{{ last_username }}" placeholder="Enter your mail" name="_username" id="username" class="form-control rounded-lg bg-gray-100 p-2 mt-2" autocomplete="email" required autofocus>
+        <label for="password" class="block text-gray-700 text-sm font-semibold mt-8">Password</label>
+        <input type="password" name="_password" id="password" placeholder="Enter your password" class="form-control rounded-lg bg-gray-100 p-2 mt-2" autocomplete="current-password" required>
         <input type="hidden" name="_csrf_token"
                value="{{ csrf_token('authenticate') }}"
         >
-
-        {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
-
-            <div class="checkbox mb-3">
-                <input type="checkbox" name="_remember_me" id="_remember_me">
-                <label for="_remember_me">Remember me</label>
-            </div>
-        #}
-
-        <button class="btn btn-lg btn-primary" type="submit">
+        <button class="mt-4 py-2 mb-8 bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 rounded-full" type="submit">
             Sign in
         </button>
     </form>
+</div>
+</div>
 {% endblock %}
