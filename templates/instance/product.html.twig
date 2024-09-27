@@ -16,7 +16,7 @@
             </div>
 
             <!-- Availaibility -->
-            {% if product.canBeRented() %}
+            {# {% if product.canBeRented() %}
                 <div class="bg-green-100 text-green-800 p-4 mb-6 rounded-md shadow-md">
                     This product is available
                 </div>
@@ -24,7 +24,7 @@
                 <div class="bg-red-100 text-red-800 p-4 mb-6 rounded-md shadow-md">
                     This product is not available
                 </div>
-            {% endif %}
+            {% endif %} #}
 
             <!-- Product title-->
             <h1 class="text-center text-2xl font-bold mb-4">{{ product.label }}</h1>
@@ -39,7 +39,7 @@
 
             <!-- Location date -->
             {{ form_start(form) }}
-            <div class="mb-6" data-controller="flatpickr">
+            <div class="mb-6" data-controller="flatpickr" data-disabled="{{ disabledDates }}">
                 <h2 class="text-lg font-semibold mb-2">Location Date</h2>
                 
                 <div class="hidden">

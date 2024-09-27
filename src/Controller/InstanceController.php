@@ -4,11 +4,14 @@ namespace App\Controller;
 
 use App\Entity\InstanceSettings;
 use App\Entity\Product;
+use App\Entity\RentHistory;
 use App\Form\BookingType;
 use App\Repository\InstanceRepository;
 use App\Repository\ProductRepository;
+use App\Repository\RentHistoryRepository;
 use App\Repository\UserRepository;
 use App\Services\GlobalVariableService;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +27,7 @@ class InstanceController extends AbstractController
         private readonly ManagerRegistry $registry, 
         private ProductRepository $productRepository, 
         private UserRepository $userRepository, 
+        private RentHistoryRepository $rentHistoryRepository,
         private EntityManagerInterface $manager,
         private GlobalVariableService $globalVariableService,
         private UserPasswordHasherInterface $passwordHasher
@@ -88,13 +92,49 @@ class InstanceController extends AbstractController
         $form = $this->createForm(BookingType::class);
         $form->handleRequest($request);
 
+        
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($form->getData());
+            
+            if($this->rentHistoryRepository->isReservationOngoing($form->get('startDate')->getData(), $form->get('endDate')->getData())) {
+                $this->addFlash('danger', 'Le produit est déjà réservé pour cette période');
+            } else {
+                
+                $startedAt  = $form->get('startDate')->getData();
+                $endedAt = $form->get('endDate')->getData();
+
+                $startedAt = DateTimeImmutable::createFromMutable($startedAt);
+                $endedAt = DateTimeImmutable::createFromMutable($endedAt);
+
+                $rentHistory = new RentHistory();
+                $rentHistory->setProduct($product);
+                $rentHistory->setRentBy($this->getUser());
+                $rentHistory->setStartedAt($startedAt);
+                $rentHistory->setEndedAt($endedAt);
+                $rentHistory->setPrice(100);
+                $rentHistory->setInstance($this->globalVariableService->get('current_instance'));
+                $this->manager->persist($rentHistory);
+                $this->manager->flush();
+                $this->addFlash('success', 'Réservation enregistrée');
+
+                return $this->redirectToRoute('app_instance_product_details', ['instance' => $this->globalVariableService->get('current_instance')->getName(), 'product' => $product->getId()]);
+            }
+        }
+
+        // récupére tous les historique du produit
+        $rentHistory = $this->rentHistoryRepository->findBy(['product' => $product]);
+
+        $historyDates = [];
+        foreach($rentHistory as $history) {
+            $historyDates[] = [
+                'from' => $history->getStartedAt()->format('Y-m-d'),
+                'to' => $history->getEndedAt()->format('Y-m-d')
+            ];
         }
 
         return $this->render('instance/product.html.twig', [
             'form' => $form->createView(),
-            'product' => $product
+            'product' => $product,
+            'disabledDates' => json_encode($historyDates)
         ]);
     }
 

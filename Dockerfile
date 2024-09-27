@@ -29,3 +29,4 @@ EXPOSE 8000
 
 # Commande pour démarrer Symfony
 CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+# CMD ["symfony", "serve"]
