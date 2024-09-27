@@ -3,46 +3,24 @@
 {% block title %}Payment{% endblock %}
 
 {% block body %}
-<script src="https://js.stripe.com/v3/"></script>
 <h1>Complete Payment</h1>
 
-    <form id="payment-form">
-        <div id="card-element"><!-- A Stripe Element will be inserted here --></div>
-        <button id="submit">Pay</button>
-        <div id="error-message"></div>
-    </form>
+<form id="payment-form">
+    <div id="card-element"><!-- A Stripe Element will be inserted here --></div>
+    <button id="submit">Pay</button>
+    <div id="error-message"></div>
+</form>
 
-    <script>
-        const stripe = Stripe('{{ stripe_public_key }}');
-        const elements = stripe.elements();
-        const cardElement = elements.create('card');
-        cardElement.mount('#card-element');
+<script src="https://js.stripe.com/v3/"></script>
+<script >
+document.addEventListener("DOMContentLoaded", function() {
+const stripe = Stripe('{{ stripe_public_key }}');
 
-        const form = document.getElementById('payment-form');
-
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-
-            const {clientSecret} = await fetch('/instance/{{current_instance().name}}/create-payment-intent', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({amount: 10}),
-            }).then(response => response.json());
-
-            const {error, paymentIntent} = await stripe.confirmCardPayment(clientSecret, {
-                payment_method: {
-                    card: cardElement,
-                },
-            });
-
-            if (error) {
-                document.getElementById('error-message').textContent = error.message;
-            } else if (paymentIntent.status === 'succeeded') {
-                alert('Payment successful!');
-            }
-        });
-    </script>
+async function init(){
+    const checkout = await stripe.initEmbeddedCheckout({'{{ session }}'})
+    checkout.mount('#card-element')
+}
+init()
+})
+</script>
 {% endblock %}

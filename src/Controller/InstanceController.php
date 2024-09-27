@@ -84,17 +84,28 @@ class InstanceController extends AbstractController
     #[Route('/instance/{instance}/product/{product}', name: 'app_instance_product_details')]
     public function product_detail(Request $request, Product $product): Response
     {
-
+        
         $form = $this->createForm(BookingType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($form->getData());
+            $start_date = $form->get('startDate')->getData();
+            $end_date = $form->get('endDate')->getData();
+            $duration = $start_date->diff($end_date)->d;
+        
+
+            return $this->redirectToRoute('app_payment', [
+            'instance' => $request->get('instance'),
+            'product' => $product->getId(),
+            'length' => $duration,
+
+        ]);
+
         }
 
         return $this->render('instance/product.html.twig', [
             'form' => $form->createView(),
-            'product' => $product
+            'product' => $product,
         ]);
     }
 

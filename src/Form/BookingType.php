@@ -24,7 +24,7 @@ class BookingType extends AbstractType
                     'min' => date('Y-m-d'),
                     'type' => 'hidden'
                 ]
-            ]);
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
