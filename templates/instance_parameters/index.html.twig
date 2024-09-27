@@ -1,20 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello InstanceParametersController!{% endblock %}
+{% block title %}Modify instance parameters{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="flex p-6 justify-center bg-secondary">
+    <div class="bg-white p-8 rounded-lg shadow-md min-w-96">
+        <h1 class="text-2xl font-bold mb-6 text-center">Modify parameters</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        {{ form_start(form) }}
+            <div class="flex flex-col">
+                {{ form_label(form.accent) }}
+                {{ form_widget(form.accent, {'attr': {'class': 'form-control rounded-lg bg-gray-100 p-1'}}) }}
+                {{ form_errors(form.accent) }}
+            </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/maelm/Documents/MDS/m1/workshop_loutou/LoueTout/src/Controller/InstanceParametersController.php</code></li>
-        <li>Your template at <code>C:/Users/maelm/Documents/MDS/m1/workshop_loutou/LoueTout/templates/instance_parameters/index.html.twig</code></li>
-    </ul>
+            <div class="flex flex-col">
+                {{ form_label(form.secondary) }}
+                {{ form_widget(form.secondary, {'attr': {'class': 'form-control rounded-lg bg-gray-100 p-1'}}) }}
+                {{ form_errors(form.secondary) }}
+            </div>
+            <button type="submit" class="mt-6 bg-accent text-white font-bold py-2 px-4 rounded-full">Modify</button>
+        {{ form_end(form) }}
+        
+    </div>
 </div>
 {% endblock %}
