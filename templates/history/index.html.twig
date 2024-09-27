@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}History{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+
+    .header {
+        display: flex;
+        justify-content: space-between; /* Permet de séparer les div */
+        align-items: center; /* Aligne verticalement au centre si nécessaire */
+        padding: 10px 20px;
+
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-family: Arial, sans-serif;
+    }
+
+    thead {
+        color: black;
+    }
+
+    td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    tr{
+        border-bottom: 1px solid #ddd;
+    }
+
+    tr:nth-child(even):hover {
+        background-color: #ffffff;
+    }
+
+    td p {
+        margin: 0;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    @media (max-width: 600px) {
+        table {
+            width: 100%;
+            font-size: 14px;
+            
+        }
+
+        th, td {
+            padding: 8px;
+        }
+
+}
+</style>
+
+<div class="example-wrapper"> 
+    <!-- tableau pour l'historique-->
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    <h1>Your rentals</h1>
+                </th>
+            </tr>
+        </thead>
+        <!-- boucle pour afficher les elements dans l'historique-->
+            {% set currentDate = "now"|date %}
+            {% for rentHistory in historyliste %}
+                {% if rentHistory.getStartedAt() > currentDate %} 
+                    <h2>Upcoming Rental: {{ rentHistory.getId() }}</h2>
+                        <tbody>
+                            {% for product in rentHistory.getProduct() %}
+                                <tr>
+                                    <td>{{ product.getLabel() }}</td>
+                                    <td>{{ product.getPrice() }}€</td>
+                                    <td>{{ rentHistory.getStartedAt()|date("d-m-Y H:i") }}</td>
+                                    <td>{{ rentHistory.getEndedAt()|date("d-m-Y H:i") }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="4">No associated product.</td>
+                                </tr>
+                            {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>No upcoming rentals.</td>
+                        </tr>
+                        </tbody>
+                {% endif %}
+                    <h2>Rental History: {{ rentHistory.getId() }}</h2>
+                        <tbody>
+                            {% for product in rentHistory.getProduct() %}
+                                <tr>
+                                    <td>{{ product.getLabel() }}</td>
+                                    <td>{{ product.getPrice() }}€</td>
+                                    <td>{{ rentHistory.getStartedAt()|date("d-m-Y H:i") }}</td>
+                                    <td>{{ rentHistory.getEndedAt()|date("d-m-Y H:i") }}</td>
+                                </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4">No associated product.</td>
+                                    </tr>
+                            {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>No rental history available.</td>
+                        </tr>
+                    </tbody>
+            {% endfor %}
+    </table>
+</div>
+{% endblock %}
